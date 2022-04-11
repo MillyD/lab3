@@ -21,6 +21,6 @@
          <Insets />
       </VBox.margin>
    </Button>
-   <ListView fx:id="IstInfografiki" editable="true" prefHeight="400.0" prefWidth="300.0" />
+   <ListView fx:id="lstInfografiki" editable="true" prefHeight="400.0" prefWidth="300.0" />
 
 </VBox>

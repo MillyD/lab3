@@ -1,5 +1,7 @@
 package pl.lublin.wsei.java.cwiczenia.lab2;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -10,9 +12,13 @@ import java.io.File;
 
 public class HelloController {
     public Label lbFile;
-    public ListView IstInfografiki;
+
     FileChooser fileChooser = new FileChooser();
     FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("Pliki XML (*.xml)","*.xml");
+
+    public ListView<String> lstInfografiki;
+    ObservableList<String> tytuly = FXCollections.observableArrayList();
+    GusInfographicList igList;
 
     @FXML
     public  void initialize(){
@@ -21,7 +27,12 @@ public class HelloController {
     public void btnOpenFileAction(ActionEvent actionEvent) {
         File file = fileChooser.showOpenDialog(null);
         if(file !=null){
+            igList = new GusInfographicList(file.getAbsolutePath());
             lbFile.setText(file.getAbsolutePath());
+            for (Infografika ig: igList.infographics){
+                tytuly.add(ig.title);
+                lstInfografiki.setItems(tytuly);
+            }
         }
         else{
             lbFile.setText("Proszę wczytać plik ...");

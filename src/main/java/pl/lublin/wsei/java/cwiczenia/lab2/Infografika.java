@@ -4,12 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Infografika {
-    private String title;
-    private String addressUrl;
-    private String graphicUrl;
-    private String thumbNailUrl;
-    private String GraphicWidth;
-    private String GraphicHeight;
+     String title;
+     String addressUrl;
+     String graphicUrl;
+     String thumbNailUrl;
+     String GraphicWidth;
+     String GraphicHeight;
 
     public Infografika(String item) {
         Matcher tittleMatcher = Pattern.compile("<title><!\\[CDATA\\[com.example.lab2.Infografika - (.*)]]").matcher(item);
