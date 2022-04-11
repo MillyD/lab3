@@ -1,5 +1,6 @@
 package pl.lublin.wsei.java.cwiczenia.lab2;
 
+import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 
@@ -22,6 +24,10 @@ public class HelloController {
     public Button btnPokazInfografike;
     public TextField txtAdresStrony;
     public Button btnPrzejdzDoStrony;
+
+    private Infografika selInfografika;
+    private Stage stage;
+    private HostServices hostServices;
 
     FileChooser fileChooser = new FileChooser();
     FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("Pliki XML (*.xml)","*.xml");
@@ -39,6 +45,7 @@ public class HelloController {
                     public void changed(ObservableValue<? extends Number> observableValue, Number old_val, Number new_val) {
                         int index = new_val.intValue();
                         if(index != -1){
+                            selInfografika = igList.infographics.get(index);
                             txtAdresStrony.setText(igList.infographics.get(index).addressUrl);
                             Image image = new Image(igList.infographics.get(index).thumbNailUrl);
                             imgMiniaturka.setImage(image);
@@ -46,6 +53,7 @@ public class HelloController {
                         else{
                             txtAdresStrony.setText("");
                             imgMiniaturka.setImage(null);
+                            selInfografika = null;
                         }
                     }
                 }
@@ -65,6 +73,20 @@ public class HelloController {
             lbFile.setText("Proszę wczytać plik ...");
         }
 
+    }
+
+    public void btnZaladujStrone(ActionEvent actionEvent) {
+        if(selInfografika != null){
+            hostServices.showDocument(selInfografika.addressUrl);
+        }
+    }
+
+    public void setHostServices(HostServices hostServices) {
+        this.hostServices = hostServices;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
 //C:\Users\emili\Desktop\JAVA-projects\Studia\lab3\src\main\java\pl\lublin\wsei\java\cwiczenia\lab2
