@@ -7,6 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -17,6 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 
 public class HelloController {
     public Label lbFile;
@@ -30,27 +34,26 @@ public class HelloController {
     private HostServices hostServices;
 
     FileChooser fileChooser = new FileChooser();
-    FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("Pliki XML (*.xml)","*.xml");
+    FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("Pliki XML (*.xml)", "*.xml");
 
     public ListView<String> lstInfografiki;
     ObservableList<String> tytuly = FXCollections.observableArrayList();
     GusInfographicList igList;
 
     @FXML
-    public  void initialize(){
+    public void initialize() {
         fileChooser.getExtensionFilters().add(xmlFilter);
         lstInfografiki.getSelectionModel().selectedIndexProperty().addListener(
                 new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observableValue, Number old_val, Number new_val) {
                         int index = new_val.intValue();
-                        if(index != -1){
+                        if (index != -1) {
                             selInfografika = igList.infographics.get(index);
                             txtAdresStrony.setText(igList.infographics.get(index).addressUrl);
                             Image image = new Image(igList.infographics.get(index).thumbNailUrl);
                             imgMiniaturka.setImage(image);
-                        }
-                        else{
+                        } else {
                             txtAdresStrony.setText("");
                             imgMiniaturka.setImage(null);
                             selInfografika = null;
@@ -59,24 +62,24 @@ public class HelloController {
                 }
         );
     }
+
     public void btnOpenFileAction(ActionEvent actionEvent) {
         File file = fileChooser.showOpenDialog(null);
-        if(file !=null){
+        if (file != null) {
             igList = new GusInfographicList(file.getAbsolutePath());
             lbFile.setText(file.getAbsolutePath());
-            for (Infografika ig: igList.infographics){
+            for (Infografika ig : igList.infographics) {
                 tytuly.add(ig.title);
                 lstInfografiki.setItems(tytuly);
             }
-        }
-        else{
+        } else {
             lbFile.setText("Proszę wczytać plik ...");
         }
 
     }
 
     public void btnZaladujStrone(ActionEvent actionEvent) {
-        if(selInfografika != null){
+        if (selInfografika != null) {
             hostServices.showDocument(selInfografika.addressUrl);
         }
     }
@@ -88,5 +91,27 @@ public class HelloController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public void btnPokazOnAction(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("imgViewer.fxml"));
+            Parent root = loader.load();
+            ImgViewer viewer = loader.getController();
+            if (selInfografika != null) {
+                Image img = new Image(selInfografika.graphicUrl);
+                viewer.imgView.setFitWidth(img.getWidth());
+                viewer.imgView.setFitHeight(img.getHeight());
+                viewer.imgView.setImage(img);
+            }
+            Stage stage = new Stage();
+            stage.setTitle("Podgląd infografiki");
+            stage.setScene(new Scene(root,900,800));
+            stage.show();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
 }
 //C:\Users\emili\Desktop\JAVA-projects\Studia\lab3\src\main\java\pl\lublin\wsei\java\cwiczenia\lab2

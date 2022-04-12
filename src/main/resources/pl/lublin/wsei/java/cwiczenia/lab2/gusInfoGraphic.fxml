@@ -26,7 +26,7 @@
    <Label prefHeight="17.0" prefWidth="68.0" text="Miniaturka" translateX="100.0" translateY="230.0" />
    <Label prefHeight="17.0" prefWidth="79.0" text="infografiki" translateX="-300.0" translateY="180.0" />
    <ImageView fx:id="imgMiniaturka" fitHeight="269.0" fitWidth="284.0" pickOnBounds="true" preserveRatio="true" translateX="210.0" translateY="220.0" />
-   <Button fx:id="btnPokazInfografike" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Pokaż" translateX="300.0" translateY="250.0" />
+   <Button fx:id="btnPokazInfografike" mnemonicParsing="false" onAction="#btnPokazOnAction" prefHeight="25.0" prefWidth="92.0" text="Pokaż" translateX="300.0" translateY="250.0" />
    <TextField fx:id="txtAdresStrony" prefHeight="12.0" prefWidth="593.0" translateX="-55.0" translateY="320.0" />
    <Button fx:id="btnPrzejdzDoStrony" mnemonicParsing="false" onAction="#btnZaladujStrone" prefHeight="25.0" prefWidth="92.0" text="Załaduj" translateX="300.0" translateY="295.0" />
    <Label prefHeight="17.0" prefWidth="96.0" text="Adres strony" translateX="-300.0" translateY="250.0" />
